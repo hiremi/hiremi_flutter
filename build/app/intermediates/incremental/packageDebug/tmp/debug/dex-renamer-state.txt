@@ -1,0 +1,4 @@
+#Sun Aug 11 05:56:16 EST 2019
+base.0=/home/phillipj/Desktop/Projects/hiremi/hiremi_flutter/build/app/intermediates/transforms/dexMerger/debug/0
+path.0=classes.dex
+renamed.0=classes.dex
