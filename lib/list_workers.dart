@@ -7,7 +7,12 @@ import 'dart:io';
 import 'package:hiremi_flutter/Jobpage.dart';
 
 
+
 class list_workers extends StatelessWidget{
+
+  list_workers(this.result);
+  var result;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +26,7 @@ class list_workers extends StatelessWidget{
         ],
         backgroundColor: Color(0xFF8bc35e),
       ),
-      body: ListViewClickListener(),
+      body: ListViewClickListener(result),
       drawer: Drawer(child: drawer(context),),
     );
   }
@@ -68,54 +73,74 @@ class list_workers extends StatelessWidget{
 }
 
 class ListViewClickListener extends StatefulWidget {
+  const ListViewClickListener(this.result );
+
+  final String result;
+
   _ListViewClickListenerState createState() => _ListViewClickListenerState();
 }
 
 class _ListViewClickListenerState extends State<ListViewClickListener> {
-
-  List<List<String>> _data = new List<List<String>>();
-
-  static final username = 'username';
-  static final password = 'password';
-  static final credentials = '$username:$password';
-  static final stringToBase64 = utf8.fuse(base64);
-  final encodedCredentials = stringToBase64.encode(credentials);
+  static TextEditingController result = new TextEditingController();
 
   static List data = [];
-  List temp_list = [];
 
-  Future<String> getData() async {
-    var response = await http.get(
-        "http://calico.palisadoes.org:8081/users", headers: {
+   Future<List> getData() async {
+
+    final username = 'username';
+    final password = 'password';
+    final credentials = '$username:$password';
+    final stringToBase64 = utf8.fuse(base64);
+    final encodedCredentials = stringToBase64.encode(credentials);
+
+    var url = "http://calico.palisadoes.org:8081/@search?SearchableText="+result.text;
+
+    List temp_list = [];
+
+    final response = await http.get(url, headers: {
       "Accept": "application/json",
       "Authorization": 'Basic ${encodedCredentials}',
     });
-
     print(response.statusCode);
-    var temp = json.decode(response.body);
-    //print(temp["items"][1]);
-    for(int a = 0; a < temp["items"].length ; a++){
-      var url  = temp["items"][a]["@id"];
-      var response2 = await http.get(url, headers: {
-        "Accept": "application/json",
-        "Authorization": 'Basic ${encodedCredentials}',
+    if (response.statusCode == 200) {
+      var temp = json.decode(response.body);
+      print(temp);
+      //print(temp["items"][0]["@id"]);
+      //print(temp["items"][1]);
+      for(int a = 0; a < temp["items_total"] ; a++){
+        //print(temp["items"][a]["@type"]);
+        if(temp["items"][a]["@type"] == 'skillworker') {
+          var url = temp["items"][a]["@id"];
+          var response2 = await http.get(url, headers: {
+            "Accept": "application/json",
+            "Authorization": 'Basic ${encodedCredentials}',
+          });
+          var temp2 = json.decode(response2.body);
+          // print(temp2);
+          temp_list.add(temp2);
+        }
+      }
+      //print(temp_list[0]["first_name"]);
+      setState(() {
+        data = temp_list;
+        //print(result.text);
       });
-      var temp2 = json.decode(response2.body);
-     // print(temp2);
-      temp_list.add(temp2);
-
+      return temp_list;
+    } else {
+      // If that response was not OK, throw an error.
+      throw Exception('Failed to load post');
     }
-    print(temp_list[1]["first_name"]);
-    setState(() {
-      data = temp_list;
-    });
+
+
+
   }
 
 
 
   @override
   void initState() {
-    getData();
+    result.text= widget.result;
+    //getData();
     //print(_demoData.length);
 
     // This is the proper place to make the async calls
@@ -135,39 +160,55 @@ class _ListViewClickListenerState extends State<ListViewClickListener> {
     // });
   }
 
-  final listbuilder = ListView.builder(
-    itemCount: data.length,
-    itemBuilder: (context, index) {
-      return Card(
-        child: ListTile(
-          onTap: () {
-            Navigator.push(context, MaterialPageRoute(builder: (context){return JobPage(data[index]);
-            }));},
-          leading: Image.network(data[index]["profile_picture"]["download"]),
-          title: Text(data[index]["first_name"]+" "+data[index]["lastname"]),
-          subtitle: Column(
-            children: <Widget>[
-              Text('Skills: '+data[index]["skill"]["title"]+' | phone#: '+ data[index]["phone_number"].toString()+' \n Email: '+data[index]["email_address"]),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: List.generate(4, (index2) {
-                  return Icon(
-                    index < data[index]["rating"] ? Icons.star : Icons.star_border,
-                  );
-                }),
-              )
-
-            ],
-          ),
-          isThreeLine: true,
-        ),
-      );
-    },
-  );
-
 
   @override
   Widget build(BuildContext context) {
+
+    final listbuilder = ListView.builder(
+      itemCount: data.length,
+      itemBuilder: (context, index) {
+        return Card(
+          child: ListTile(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context){return JobPage(data[index]);
+              }));},
+            leading: Image.network(data[index]["profile_picture"]["download"]),
+            title: Text(data[index]["first_name"]+" "+data[index]["lastname"]),
+            subtitle: Column(
+              children: <Widget>[
+                Text('Skills: '+data[index]["skill"]["title"]+' | phone#: '+ data[index]["phone_number"].toString()+' \n Email: '+data[index]["email_address"]),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: List.generate(4, (index2) {
+                    return Icon(
+                      index < data[index]["rating"] ? Icons.star : Icons.star_border,
+                    );
+                  }),
+                )
+
+              ],
+            ),
+            isThreeLine: true,
+          ),
+        );
+      },
+    );
+
+    final futurebuilder = FutureBuilder<List>(
+      future: getData(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return listbuilder;
+        } else if (snapshot.hasError) {
+          return Text("${snapshot.error}");
+        }
+
+        // By default, show a loading spinner.
+        return CircularProgressIndicator();
+      },
+    );
+
+
     //getData();
     //print(_data.length);
     return Scaffold(

@@ -141,11 +141,15 @@ class ProfileHeader extends StatelessWidget {
           ),
         ),
         new Padding(padding: const EdgeInsets.only(right: 20.0)),
-        new Column(
+        Column(
+//          direction: Axis.horizontal,
+//          spacing: 10,
+//          runSpacing: 10,
+//          alignment: WrapAlignment.end,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Text(data["first_name"]+" "+data["lastname"], style: mainTextStyle),
-            new Text(data["description"], style: subTextStyle, softWrap: true),
+            Text(data["first_name"]+" "+data["lastname"], style: mainTextStyle),
+            Text(data["description"], style: subTextStyle),
           ],
         ),
       ],

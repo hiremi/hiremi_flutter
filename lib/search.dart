@@ -12,10 +12,19 @@ class Search extends StatefulWidget{
 }
 
 class _Search extends State<Search>{
+  final searchval = TextEditingController();
+
+  @override
+  void dispose() {
+    // Clean up the controller when the widget is disposed.
+    searchval.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final searchField = TextField(
+      controller: searchval,
       obscureText: false,
       decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
@@ -31,8 +40,22 @@ class _Search extends State<Search>{
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context){return (list_workers());
-          }));},
+          if(searchval.text == '  '){
+            return AlertDialog(
+                title: Text('Rewind and remember'),
+          content: SingleChildScrollView(
+          child: ListBody(
+          children: <Widget>[
+          Text('You wijll never be satisfied.'),
+          Text('You\’re like me. I’m never satisfied.'),
+          ],
+          ),
+          ));
+          }else{
+            return Navigator.push(context, MaterialPageRoute(builder: (context){return (list_workers(searchval.text));
+            }));
+          }
+         },
         child: Text("Get Assistance",
             textAlign: TextAlign.center),
       ),
