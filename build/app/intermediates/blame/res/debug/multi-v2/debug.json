@@ -1,11 +1,19 @@
 {
     "logs": [
         {
-            "outputFile": "/home/phillipj/Desktop/Projects/hiremi/hiremi_flutter/build/app/intermediates/res/merged/debug/values_values.arsc.flat",
+            "outputFile": "C:\\Users\\phill\\Desktop\\UWI Files\\Vincent Hosang\\hiremi_flutter\\hiremi\\build\\app\\intermediates\\res\\merged\\debug\\values_values.arsc.flat",
             "map": [
                 {
-                    "source": "/home/phillipj/Desktop/Projects/hiremi/hiremi_flutter/android/app/src/main/res/values/styles.xml",
+                    "source": "C:\\Users\\phill\\Desktop\\UWI Files\\Vincent Hosang\\hiremi_flutter\\hiremi\\android\\app\\src\\main\\res\\values\\styles.xml",
                     "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "57",
+                        "endLines": "6",
+                        "endColumns": "12",
+                        "endOffsets": "353"
+                    },
+                    "to": {
                         "startLines": "2",
                         "startColumns": "4",
                         "startOffsets": "55",

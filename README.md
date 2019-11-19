@@ -1,6 +1,6 @@
-# hiremi_flutter
+# hiremi
 
-a flutter app for hireme
+HireMi mobile application
 
 ## Getting Started
 

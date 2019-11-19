@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="hiremi.hiremi_flutter"
+    package="com.hiremi.hiremi"
     android:versionCode="1"
     android:versionName="1.0.0" >
 
@@ -23,9 +23,9 @@
         android:name="io.flutter.app.FlutterApplication"
         android:debuggable="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="hiremi_flutter" >
+        android:label="hiremi" >
         <activity
-            android:name="hiremi.hiremi_flutter.MainActivity"
+            android:name="com.hiremi.hiremi.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"

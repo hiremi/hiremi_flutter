@@ -1,4 +1,4 @@
-#Tue Aug 13 08:30:01 EST 2019
-base.0=/home/phillipj/Desktop/Projects/hiremi/hiremi_flutter/build/app/intermediates/transforms/dexMerger/debug/0
+#Tue Nov 19 04:04:02 COT 2019
+base.0=C\:\\Users\\phill\\Desktop\\UWI Files\\Vincent Hosang\\hiremi_flutter\\hiremi\\build\\app\\intermediates\\transforms\\dexMerger\\debug\\0
 path.0=classes.dex
 renamed.0=classes.dex

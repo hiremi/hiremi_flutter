@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/hiremi_flutter.iml" filepath="$PROJECT_DIR$/.idea/hiremi_flutter.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/hiremi.iml" filepath="$PROJECT_DIR$/.idea/hiremi.iml" />
     </modules>
   </component>
 </project>
